@@ -1,0 +1,41 @@
+=== GPT-4o-mini Intersectional Penalty Logistic Regression ===
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:            Refusal_Int   No. Observations:                  435
+Model:                          Logit   Df Residuals:                      417
+Method:                           MLE   Df Model:                           17
+Date:                Tue, 21 Apr 2026   Pseudo R-squ.:                 0.03753
+Time:                        15:06:51   Log-Likelihood:                -119.51
+converged:                      False   LL-Null:                       -124.17
+Covariance Type:            nonrobust   LLR p-value:                    0.9297
+=============================================================================================================================================
+                                                                                coef    std err          z      P>|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------------------------------------------------------
+Intercept                                                                    -1.8723        nan        nan        nan         nan         nan
+Race[T.Black]                                                                -0.0505   1.82e+07  -2.78e-09      1.000   -3.56e+07    3.56e+07
+Race[T.Asian]                                                                 0.3798        nan        nan        nan         nan         nan
+Gender[T.woman]                                                               0.4561        nan        nan        nan         nan         nan
+Gender[T.non-binary individual]                                               0.3686   1.25e+07   2.95e-08      1.000   -2.45e+07    2.45e+07
+Status[T.severe depression]                                                  -0.5256        nan        nan        nan         nan         nan
+Status[T.Muslim]                                                             -1.3466        nan        nan        nan         nan         nan
+Race[T.Black]:Gender[T.woman]                                                -0.1793   4.77e+07  -3.76e-09      1.000   -9.34e+07    9.34e+07
+Race[T.Asian]:Gender[T.woman]                                                -0.6585        nan        nan        nan         nan         nan
+Race[T.Black]:Gender[T.non-binary individual]                                -0.0593        nan        nan        nan         nan         nan
+Race[T.Asian]:Gender[T.non-binary individual]                                -0.7315   5.88e+07  -1.24e-08      1.000   -1.15e+08    1.15e+08
+Race[T.Black]:Status[T.severe depression]                                    -0.3242    1.8e+07   -1.8e-08      1.000   -3.52e+07    3.52e+07
+Race[T.Asian]:Status[T.severe depression]                                    -0.3798        nan        nan        nan         nan         nan
+Race[T.Black]:Status[T.Muslim]                                                0.2737   1.82e+07    1.5e-08      1.000   -3.56e+07    3.56e+07
+Race[T.Asian]:Status[T.Muslim]                                                0.7596        nan        nan        nan         nan         nan
+Gender[T.woman]:Status[T.severe depression]                                   0.4014        nan        nan        nan         nan         nan
+Gender[T.non-binary individual]:Status[T.severe depression]                  -0.6098   1.25e+07  -4.88e-08      1.000   -2.45e+07    2.45e+07
+Gender[T.woman]:Status[T.Muslim]                                              0.0547        nan        nan        nan         nan         nan
+Gender[T.non-binary individual]:Status[T.Muslim]                              0.9784   1.25e+07   7.82e-08      1.000   -2.45e+07    2.45e+07
+Race[T.Black]:Gender[T.woman]:Status[T.severe depression]                     0.5904   4.77e+07   1.24e-08      1.000   -9.34e+07    9.34e+07
+Race[T.Asian]:Gender[T.woman]:Status[T.severe depression]                    -0.0524        nan        nan        nan         nan         nan
+Race[T.Black]:Gender[T.non-binary individual]:Status[T.severe depression]     0.6751        nan        nan        nan         nan         nan
+Race[T.Asian]:Gender[T.non-binary individual]:Status[T.severe depression]     1.1369   5.88e+07   1.93e-08      1.000   -1.15e+08    1.15e+08
+Race[T.Black]:Gender[T.woman]:Status[T.Muslim]                               -0.7697   4.77e+07  -1.62e-08      1.000   -9.34e+07    9.34e+07
+Race[T.Asian]:Gender[T.woman]:Status[T.Muslim]                               -0.6061        nan        nan        nan         nan         nan
+Race[T.Black]:Gender[T.non-binary individual]:Status[T.Muslim]               -0.7344        nan        nan        nan         nan         nan
+Race[T.Asian]:Gender[T.non-binary individual]:Status[T.Muslim]               -1.8684   5.88e+07  -3.18e-08      1.000   -1.15e+08    1.15e+08
+=============================================================================================================================================
