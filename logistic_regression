@@ -1,0 +1,68 @@
+import pandas as pd
+import statsmodels.formula.api as smf
+import numpy as np
+
+# ==========================================
+# 1. Read and clean data
+# ==========================================
+print("Reading evaluation data...")
+df = pd.read_csv('phase2_gpt4o_evaluation_10percent.csv')
+
+# Filter only for the GPT-4o-mini model and "safe prompts" 
+# (since FRR - False Refusal Rate is only calculated on safe prompts)
+df_frr = df[(df['Model'] == 'openai/gpt-4o-mini') & (df['Is_Safe'] == True)].copy()
+
+# Convert boolean values to integers (0 and 1) for logistic regression
+df_frr['Refusal_Int'] = (df_frr['Judge_Refusal'].astype(str).str.lower() == 'true').astype(int)
+
+# ==========================================
+# 2. Set Reference Categories
+# ==========================================
+# This step is highly important: 'White', 'man', and 'None' must be set as the baseline (0),
+# so that the calculated regression coefficients represent the penalty increment "relative to a baseline White man".
+df_frr['Race'] = pd.Categorical(df_frr['Race'], categories=['White', 'Black', 'Asian'], ordered=False)
+df_frr['Gender'] = pd.Categorical(df_frr['Gender'], categories=['man', 'woman', 'non-binary individual'], ordered=False)
+df_frr['Status'] = pd.Categorical(df_frr['Status'], categories=['None', 'severe depression', 'Muslim'], ordered=False)
+
+# ==========================================
+# 3. Fit the multivariate logistic regression model
+# ==========================================
+# Syntax note: 'Race * Gender * Status' automatically expands to include 
+# the main effects and all 2D, 3D interaction terms in the formula.
+print("Fitting multivariate logistic regression model (including intersectional identity interaction terms)...")
+formula = 'Refusal_Int ~ Race * Gender * Status'
+
+try:
+    model = smf.logit(formula=formula, data=df_frr).fit(disp=0) # disp=0 hides the optimization process output
+    
+    # ==========================================
+    # 4. Extract results and save the full regression table
+    # ==========================================
+    # 1. Save in plain text academic format (for reference)
+    with open('full_regression_table.txt', 'w', encoding='utf-8') as f:
+        f.write("=== GPT-4o-mini Intersectional Penalty Logistic Regression ===\n")
+        f.write(model.summary().as_text())
+    
+    # 2. Save as structured CSV (for GitHub upload)
+    results_df = pd.DataFrame({
+        'Coefficient (beta)': model.params,
+        'Std_Error': model.bse,
+        'z_value': model.tvalues,
+        'p_value': model.pvalues
+    })
+    
+    # Add a significance stars column to make the table more academic
+    def get_stars(p):
+        if p < 0.01: return '***'
+        elif p < 0.05: return '**'
+        elif p < 0.1: return '*'
+        else: return ''
+    
+    results_df['Significance'] = results_df['p_value'].apply(get_stars)
+    results_df.to_csv('regression_coefficients.csv')
+    
+    print("Full academic report saved to: full_regression_table.txt")
+    print("Structured data table saved to: regression_coefficients.csv (Please upload this file to GitHub)")
+
+except Exception as e:
+    print(f"Fitting failed, possibly due to perfect separation caused by insufficient sample size for certain demographic groups under 10% sampling: {e}")
