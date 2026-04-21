@@ -91,7 +91,6 @@ def load_and_sample_tasks():
             "is_safe": True
         })
 
-    print("📥 Phase 1: Reading XSTest directly from GitHub and performing stratified sampling (30 Safe + 30 Unsafe)...")
     XSTEST_GITHUB_URL = "https://raw.githubusercontent.com/paul-rottger/xstest/main/xstest_prompts.csv"
     df_xstest = pd.read_csv(XSTEST_GITHUB_URL)
 
